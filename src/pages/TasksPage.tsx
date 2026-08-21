@@ -67,7 +67,7 @@ export const TasksPage: React.FC = () => {
     return 'Good evening';
   }, []);
 
-  const firstName = user?.name ? user.name.split(' ')[0] : 'Priyanshu';
+  const firstName = user?.name ? user.name.split(' ')[0] : 'there';
 
   // 300ms Debounced search query
   const debouncedSearch = useDebounce(searchQuery, 300);

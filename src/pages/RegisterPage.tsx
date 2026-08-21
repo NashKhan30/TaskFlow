@@ -83,7 +83,7 @@ export const RegisterPage: React.FC = () => {
               value={name}
               onChange={(e) => setName(e.target.value)}
               onBlur={() => setTouched((prev) => ({ ...prev, name: true }))}
-              placeholder="e.g. Priyanshu Sharma"
+              placeholder="e.g. Alex Morgan"
               className={`w-full bg-slate-50 dark:bg-slate-900 border rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none transition-all ${
                 nameError
                   ? 'border-rose-500/80 focus:border-rose-500'
