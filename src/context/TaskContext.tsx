@@ -26,6 +26,15 @@ export interface TaskContextType {
 
 const TaskContext = createContext<TaskContextType | undefined>(undefined);
 
+const getTodayIso = (): string => new Date().toISOString().split('T')[0];
+
+export const isDateToday = (dueDate: string): boolean => {
+  if (!dueDate) return false;
+  const todayIso = getTodayIso();
+  const lower = dueDate.toLowerCase();
+  return lower === 'today' || dueDate === todayIso;
+};
+
 // Helper to filter out any leftover dummy starter tasks stored in browser cache
 const sanitizeStoredTasks = (storageKey: string): Task[] => {
   try {
@@ -95,7 +104,7 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
     title: string,
     priority: Priority = 'medium',
     category: Category = 'Work',
-    dueDate = 'Today'
+    dueDate = getTodayIso()
   ) => {
     const newTask: Task = {
       id: `task_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
@@ -183,8 +192,8 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const pendingCount = tasks.filter((t) => !t.completed).length;
   const completedCount = tasks.length - pendingCount;
   const highPriorityCount = tasks.filter((t) => t.priority === 'high' && !t.completed).length;
-  const todayCount = tasks.filter((t) => t.dueDate.toLowerCase() === 'today').length;
-  const upcomingCount = tasks.filter((t) => t.dueDate.toLowerCase() !== 'today').length;
+  const todayCount = tasks.filter((t) => isDateToday(t.dueDate)).length;
+  const upcomingCount = tasks.filter((t) => !isDateToday(t.dueDate)).length;
 
   const categoryCounts: Record<Category, number> = {
     Work: tasks.filter((t) => t.category === 'Work').length,

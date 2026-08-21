@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { useTasks } from '../context/TaskContext';
+import { useTasks, isDateToday } from '../context/TaskContext';
 import { useTheme } from '../context/ThemeContext';
 import { useDebounce } from '../hooks/useDebounce';
 import { TaskForm } from '../components/TaskForm';
@@ -80,8 +80,8 @@ export const TasksPage: React.FC = () => {
       .filter((task) => {
         // 1. Tab status filter
         if (activeTab === 'completed' && !task.completed) return false;
-        if (activeTab === 'today' && task.dueDate.toLowerCase() !== 'today') return false;
-        if (activeTab === 'upcoming' && task.dueDate.toLowerCase() === 'today') return false;
+        if (activeTab === 'today' && !isDateToday(task.dueDate)) return false;
+        if (activeTab === 'upcoming' && isDateToday(task.dueDate)) return false;
 
         // 2. Category filter from sidebar
         if (selectedCategory !== 'All' && task.category !== selectedCategory) return false;
@@ -120,10 +120,10 @@ export const TasksPage: React.FC = () => {
     if (activeTab === 'completed') {
       handleTabChange('all');
     }
-    if (activeTab === 'today' && dueDate.toLowerCase() !== 'today') {
+    if (activeTab === 'today' && !isDateToday(dueDate)) {
       handleTabChange('all');
     }
-    if (activeTab === 'upcoming' && dueDate.toLowerCase() === 'today') {
+    if (activeTab === 'upcoming' && isDateToday(dueDate)) {
       handleTabChange('all');
     }
   };
@@ -310,7 +310,7 @@ export const TasksPage: React.FC = () => {
         </div>
       </div>
 
-      {/* 4. Filter & Sort Horizontal Capsule Bar (Adapts responsively on mobile without overflow) */}
+      {/* 4. Filter & Sort Horizontal Capsule Bar */}
       <div className="w-full max-w-full bg-white dark:bg-[#0b1120] border border-slate-200 dark:border-slate-800 rounded-2xl p-2 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-2.5 shadow-sm dark:shadow-md box-border">
         {/* Left Filter Tabs */}
         <div className="flex flex-wrap items-center gap-1.5 w-full md:w-auto">

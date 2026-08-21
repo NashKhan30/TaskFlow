@@ -68,6 +68,31 @@ const PRIORITY_CONFIG: Record<
   },
 };
 
+const formatDisplayDate = (dateStr: string): string => {
+  if (!dateStr) return 'No Date';
+  if (dateStr.toLowerCase() === 'today') return 'Today';
+  if (dateStr.toLowerCase() === 'tomorrow') return 'Tomorrow';
+  if (dateStr.toLowerCase() === 'upcoming') return 'Upcoming';
+
+  try {
+    const parts = dateStr.split('-');
+    if (parts.length === 3) {
+      const year = Number(parts[0]);
+      const month = Number(parts[1]) - 1;
+      const day = Number(parts[2]);
+      const targetDate = new Date(year, month, day);
+      return targetDate.toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: year !== new Date().getFullYear() ? 'numeric' : undefined,
+      });
+    }
+    return dateStr;
+  } catch {
+    return dateStr;
+  }
+};
+
 export const TaskItem: React.FC<TaskItemProps> = memo(({ task, onToggle, onDelete, onEdit }) => {
   const { editTask } = useTasks();
 
@@ -168,20 +193,15 @@ export const TaskItem: React.FC<TaskItemProps> = memo(({ task, onToggle, onDelet
             </span>
           </div>
 
-          {/* Due Date Picker */}
-          <div className="relative flex-1 sm:flex-initial min-w-[110px]">
-            <select
+          {/* Real Interactive Calendar Date Picker */}
+          <div className="relative flex-1 sm:flex-initial min-w-[130px]">
+            <input
+              type="date"
               value={editDueDate}
               onChange={(e) => setEditDueDate(e.target.value)}
-              className="w-full appearance-none bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 rounded-xl px-2.5 py-1.5 pr-6 text-xs focus:outline-none focus:border-indigo-500 cursor-pointer font-medium min-h-[34px]"
-            >
-              <option value="Today">📅 Today</option>
-              <option value="Tomorrow">⏳ Tomorrow</option>
-              <option value="Upcoming">🚀 Upcoming</option>
-            </select>
-            <span className="material-symbols-outlined absolute right-1.5 top-1/2 -translate-y-1/2 text-[14px] text-slate-400 pointer-events-none">
-              calendar_today
-            </span>
+              className="w-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 rounded-xl px-2.5 py-1.5 text-xs focus:outline-none focus:border-indigo-500 cursor-pointer font-medium min-h-[34px]"
+              title="Select Due Date"
+            />
           </div>
 
           {/* Priority Picker */}
@@ -248,7 +268,7 @@ export const TaskItem: React.FC<TaskItemProps> = memo(({ task, onToggle, onDelet
         </div>
       </label>
 
-      {/* Task Content (Responsive wrap without clipping) */}
+      {/* Task Content */}
       <div className="flex-1 min-w-0 flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 sm:gap-2">
         <div className="flex flex-col min-w-0">
           <span
@@ -272,10 +292,10 @@ export const TaskItem: React.FC<TaskItemProps> = memo(({ task, onToggle, onDelet
 
             <span className="w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-700 hidden sm:inline-block"></span>
 
-            {/* Due Date */}
+            {/* Due Date Display */}
             <span className="inline-flex items-center gap-1 text-[10px] sm:text-[11px] font-medium text-slate-500 dark:text-slate-400">
               <span className="material-symbols-outlined text-[13px] text-indigo-400">calendar_today</span>
-              {task.dueDate}
+              {formatDisplayDate(task.dueDate)}
             </span>
           </div>
         </div>

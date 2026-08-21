@@ -9,12 +9,14 @@ export interface TaskFormProps {
 export const TaskForm: React.FC<TaskFormProps> = ({ onAddTask }) => {
   const { addTask, selectedCategory } = useTasks();
 
+  const getTodayDate = () => new Date().toISOString().split('T')[0];
+
   const [title, setTitle] = useState('');
   const [priority, setPriority] = useState<Priority>('medium');
   const [category, setCategory] = useState<Category>(
     selectedCategory !== 'All' ? selectedCategory : 'Work'
   );
-  const [dueDate, setDueDate] = useState<string>('Today');
+  const [dueDate, setDueDate] = useState<string>(getTodayDate());
 
   // Auto-sync category if user selected a category from the sidebar
   useEffect(() => {
@@ -60,12 +62,12 @@ export const TaskForm: React.FC<TaskFormProps> = ({ onAddTask }) => {
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            placeholder="What needs to be done today?"
+            placeholder="What needs to be done?"
             className="flex-1 w-full bg-slate-50 sm:bg-transparent dark:bg-slate-900/50 sm:dark:bg-transparent rounded-xl sm:rounded-none px-3 sm:px-2 py-2.5 sm:py-1.5 text-base sm:text-sm text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none font-medium min-w-0"
           />
         </div>
 
-        {/* Right Embedded Metadata Controls (Wraps cleanly on mobile without clipping Add Task button) */}
+        {/* Right Embedded Metadata Controls */}
         <div className="flex flex-wrap items-center gap-2 text-xs shrink-0 w-full lg:w-auto justify-start sm:justify-end">
           {/* Category Dropdown */}
           <div className="relative flex-1 sm:flex-initial min-w-[110px]">
@@ -85,20 +87,15 @@ export const TaskForm: React.FC<TaskFormProps> = ({ onAddTask }) => {
             </span>
           </div>
 
-          {/* Due Date Selector */}
-          <div className="relative flex-1 sm:flex-initial min-w-[105px]">
-            <select
+          {/* Real Interactive Calendar Date Picker */}
+          <div className="relative flex-1 sm:flex-initial min-w-[130px]">
+            <input
+              type="date"
               value={dueDate}
               onChange={(e) => setDueDate(e.target.value)}
-              className="w-full appearance-none bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700/70 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700/60 rounded-xl px-2.5 py-2 pr-7 text-xs focus:outline-none focus:border-indigo-500 cursor-pointer transition-colors font-medium min-h-[36px]"
-            >
-              <option value="Today">📅 Today</option>
-              <option value="Tomorrow">⏳ Tomorrow</option>
-              <option value="Upcoming">🚀 Upcoming</option>
-            </select>
-            <span className="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-[16px] text-slate-400 pointer-events-none">
-              expand_more
-            </span>
+              className="w-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700/70 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700/60 rounded-xl px-2.5 py-2 text-xs focus:outline-none focus:border-indigo-500 cursor-pointer transition-colors font-medium min-h-[36px]"
+              title="Select Due Date"
+            />
           </div>
 
           {/* Priority Toggle Button */}
@@ -119,7 +116,7 @@ export const TaskForm: React.FC<TaskFormProps> = ({ onAddTask }) => {
             <span className="capitalize text-xs">{priority}</span>
           </button>
 
-          {/* Add Task Button (Always Fully Visible) */}
+          {/* Add Task Button */}
           <button
             type="submit"
             disabled={!title.trim()}
