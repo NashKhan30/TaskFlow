@@ -113,9 +113,9 @@ export const TaskItem: React.FC<TaskItemProps> = memo(({ task, onToggle, onDelet
     return (
       <form
         onSubmit={handleSave}
-        className="bg-white dark:bg-[#0f172a] border-2 border-indigo-500/70 rounded-2xl p-3.5 sm:p-4 shadow-xl space-y-3 animate-fadeIn"
+        className="w-full max-w-full bg-white dark:bg-[#0f172a] border-2 border-indigo-500/70 rounded-2xl p-3 sm:p-4 shadow-xl space-y-3 animate-fadeIn box-border"
       >
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-2">
           <span className="text-[11px] font-bold uppercase tracking-wider text-indigo-500 dark:text-indigo-400 flex items-center gap-1">
             <span className="material-symbols-outlined text-[15px]">edit</span>
             Editing Task
@@ -124,7 +124,7 @@ export const TaskItem: React.FC<TaskItemProps> = memo(({ task, onToggle, onDelet
             <button
               type="submit"
               disabled={!editTitle.trim()}
-              className="bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-400 hover:to-purple-500 disabled:opacity-40 text-white font-semibold text-xs px-3.5 py-1.5 rounded-xl transition-all shadow-md shadow-indigo-500/25 flex items-center gap-1"
+              className="bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-400 hover:to-purple-500 disabled:opacity-40 text-white font-semibold text-xs px-3.5 py-1.5 rounded-xl transition-all shadow-md shadow-indigo-500/25 flex items-center gap-1 cursor-pointer"
             >
               <span className="material-symbols-outlined text-[15px]">check</span>
               <span>Save</span>
@@ -132,7 +132,7 @@ export const TaskItem: React.FC<TaskItemProps> = memo(({ task, onToggle, onDelet
             <button
               type="button"
               onClick={handleCancel}
-              className="bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs px-3 py-1.5 rounded-xl transition-colors flex items-center gap-1"
+              className="bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs px-3 py-1.5 rounded-xl transition-colors flex items-center gap-1 cursor-pointer"
             >
               <span className="material-symbols-outlined text-[15px]">close</span>
               <span>Cancel</span>
@@ -146,22 +146,22 @@ export const TaskItem: React.FC<TaskItemProps> = memo(({ task, onToggle, onDelet
           onChange={(e) => setEditTitle(e.target.value)}
           placeholder="Task title..."
           autoFocus
-          className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500"
+          className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2 text-base sm:text-sm text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500 box-border"
         />
 
-        <div className="flex flex-wrap items-center gap-2 text-xs">
+        <div className="flex flex-wrap items-center gap-2 text-xs w-full">
           {/* Category Picker */}
-          <div className="relative">
+          <div className="relative flex-1 sm:flex-initial min-w-[120px]">
             <select
               value={editCategory}
               onChange={(e) => setEditCategory(e.target.value as Category)}
-              className="appearance-none bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 rounded-xl px-2.5 py-1.5 pr-6 text-xs focus:outline-none focus:border-indigo-500 cursor-pointer font-medium"
+              className="w-full appearance-none bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 rounded-xl px-2.5 py-1.5 pr-6 text-xs focus:outline-none focus:border-indigo-500 cursor-pointer font-medium min-h-[34px]"
             >
-              <option value="Work">Work (Blue)</option>
-              <option value="Personal">Personal (Green)</option>
-              <option value="Study">Study (Purple)</option>
-              <option value="Health">Health (Rose)</option>
-              <option value="Finance">Finance (Amber)</option>
+              <option value="Work">💼 Work</option>
+              <option value="Personal">🌿 Personal</option>
+              <option value="Study">📚 Study</option>
+              <option value="Health">❤️ Health</option>
+              <option value="Finance">💰 Finance</option>
             </select>
             <span className="material-symbols-outlined absolute right-1.5 top-1/2 -translate-y-1/2 text-[14px] text-slate-400 pointer-events-none">
               expand_more
@@ -169,15 +169,15 @@ export const TaskItem: React.FC<TaskItemProps> = memo(({ task, onToggle, onDelet
           </div>
 
           {/* Due Date Picker */}
-          <div className="relative">
+          <div className="relative flex-1 sm:flex-initial min-w-[110px]">
             <select
               value={editDueDate}
               onChange={(e) => setEditDueDate(e.target.value)}
-              className="appearance-none bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 rounded-xl px-2.5 py-1.5 pr-6 text-xs focus:outline-none focus:border-indigo-500 cursor-pointer font-medium"
+              className="w-full appearance-none bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 rounded-xl px-2.5 py-1.5 pr-6 text-xs focus:outline-none focus:border-indigo-500 cursor-pointer font-medium min-h-[34px]"
             >
-              <option value="Today">Today</option>
-              <option value="Tomorrow">Tomorrow</option>
-              <option value="Upcoming">Upcoming</option>
+              <option value="Today">📅 Today</option>
+              <option value="Tomorrow">⏳ Tomorrow</option>
+              <option value="Upcoming">🚀 Upcoming</option>
             </select>
             <span className="material-symbols-outlined absolute right-1.5 top-1/2 -translate-y-1/2 text-[14px] text-slate-400 pointer-events-none">
               calendar_today
@@ -185,13 +185,13 @@ export const TaskItem: React.FC<TaskItemProps> = memo(({ task, onToggle, onDelet
           </div>
 
           {/* Priority Picker */}
-          <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-0.5">
+          <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-0.5 min-h-[34px]">
             {(['low', 'medium', 'high'] as Priority[]).map((p) => (
               <button
                 key={p}
                 type="button"
                 onClick={() => setEditPriority(p)}
-                className={`capitalize px-2.5 py-1 rounded-lg text-[10px] font-semibold transition-all ${
+                className={`capitalize px-2.5 py-1 rounded-lg text-[10px] font-semibold transition-all cursor-pointer ${
                   editPriority === p
                     ? p === 'high'
                       ? 'bg-rose-500 text-white shadow-sm shadow-rose-500/40'
@@ -212,16 +212,16 @@ export const TaskItem: React.FC<TaskItemProps> = memo(({ task, onToggle, onDelet
 
   return (
     <div
-      className={`group relative bg-white dark:bg-[#0b1120] border-y border-r border-slate-200/90 dark:border-slate-800/90 hover:border-slate-300 dark:hover:border-slate-700 rounded-2xl p-3.5 sm:p-4 flex items-center gap-3.5 transition-all shadow-sm dark:shadow-md border-l-4 ${
+      className={`w-full max-w-full group relative bg-white dark:bg-[#0b1120] border-y border-r border-slate-200/90 dark:border-slate-800/90 hover:border-slate-300 dark:hover:border-slate-700 rounded-2xl p-3 sm:p-4 flex items-start sm:items-center gap-3 transition-all shadow-sm dark:shadow-md border-l-4 box-border ${
         priorityInfo.borderStrip
       } ${
         task.completed
           ? 'opacity-55 bg-slate-50 dark:bg-[#080d1a]/60 border-l-slate-400 dark:border-l-slate-600'
-          : 'hover:shadow-lg hover:-translate-y-0.5'
+          : 'hover:shadow-md'
       }`}
     >
       {/* Custom Checkbox */}
-      <label className="relative cursor-pointer p-0.5 flex items-center justify-center shrink-0">
+      <label className="relative cursor-pointer pt-0.5 sm:pt-0 flex items-center justify-center shrink-0">
         <input
           type="checkbox"
           checked={task.completed}
@@ -248,7 +248,7 @@ export const TaskItem: React.FC<TaskItemProps> = memo(({ task, onToggle, onDelet
         </div>
       </label>
 
-      {/* Task Content */}
+      {/* Task Content (Responsive wrap without clipping) */}
       <div className="flex-1 min-w-0 flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 sm:gap-2">
         <div className="flex flex-col min-w-0">
           <span
@@ -289,11 +289,11 @@ export const TaskItem: React.FC<TaskItemProps> = memo(({ task, onToggle, onDelet
       </div>
 
       {/* Action Buttons (Edit + Delete) */}
-      <div className="flex items-center gap-1 shrink-0 opacity-90 sm:opacity-0 group-hover:opacity-100 transition-opacity">
+      <div className="flex items-center gap-1 shrink-0 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
         <button
           type="button"
           onClick={() => setIsEditing(true)}
-          className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-500/15 transition-colors"
+          className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-500/15 transition-colors cursor-pointer"
           title="Edit Task"
         >
           <span className="material-symbols-outlined text-[17px] sm:text-[18px]">edit</span>
@@ -301,7 +301,7 @@ export const TaskItem: React.FC<TaskItemProps> = memo(({ task, onToggle, onDelet
         <button
           type="button"
           onClick={() => onDelete(task.id)}
-          className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-500/15 transition-colors"
+          className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-500/15 transition-colors cursor-pointer"
           title="Delete Task"
         >
           <span className="material-symbols-outlined text-[17px] sm:text-[18px]">delete</span>
